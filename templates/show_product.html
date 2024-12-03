@@ -1,0 +1,66 @@
+{%extends './base/root.html'%} 
+{% block content %}
+    <div class="container">
+        <div class="row product-detail-row mt-4 mb-5">
+            <div class="col-5">
+                <img src={{product.image.url}}
+                     class="img-fluid"
+                     height="">
+            </div>
+            <div class="col-7">
+                <div class="jumbotron">
+                    <h1 class="display-4"> {{ product.name }} </h1>
+                    <div class="price-container">
+                            <h5 class="card-title">
+                                {{product.price}} USD
+                            </h5>
+                    </div>
+                    <p>Incluye al animador</p>
+                    <hr class="my-4">
+                    <h3>
+                      Animador: {{ product.brand.name }}
+                    </h3>
+                    <img src="{{ product.brand.logo.url }}"
+                    class="img-fluid w-25"
+                    alt="Logo de la marca">
+                    <p>
+                        {{ product.brand.description }}
+                    </p>
+                    <form action="{% url 'comprar' idProducto=product.id idBrand=product.brand.id %}" method="post">
+                      {% csrf_token %}
+                      <button type="submit" class="btn btn-tomato">Comprar</a>
+                    </form>
+                </div>
+            </div>
+        </div>
+        {% if perms.productos.add_comment %}
+        <div class="row">
+          <div class="col-5 comment-column">
+            <form action="{% url 'new_comment' id=product.id %}" method="post" class="post-form">
+              {% csrf_token %}
+              <div class="input-group mb-4">
+                {{ formCo.text }}
+              </div>
+              <button type="submit" class="save btn btn-dark">Enviar</button>
+            </form>
+          </div>
+        </div>
+        {%else%}
+          <h1>INICIA SESION PARA COMENTAR</h1>
+          <a  href="{%url 'login'%}" >Login</a> 
+        {% endif%}
+        <!--si tienes el permiso de ver los comentarios-->
+        {% if perms.productos.view_comment %}
+        <div class="col-7">
+          <h2 class="comment-title text-left">Comentarios</h2>
+          {% for comment in comments %}
+            <div class="comment">
+              <div class="date">{{ comment.created_date }}</div>
+              <strong>{{ comment.author }}</strong>
+              <p>{{ comment.text }}</p>
+            </div>
+          {% endfor %}
+        </div>
+        {%endif%}
+        
+{% endblock %}

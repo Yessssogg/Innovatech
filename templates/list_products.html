@@ -1,0 +1,24 @@
+{%extends './base/root.html'%}
+{% block content %}
+        <div class="container">
+            <div class="row">
+                {%for product in products%}
+                    <div class="col-3">
+                        <div class="card">
+                            <img src="{{product.image.url}}"
+                                class="card-img-top float-start">
+                            <div class="card-body">
+                                <h5 class="card-title">{{product.name}}</h5>
+                                <div class="price-container">
+                                    <p class="card-title product-price">{{product.price}} USD</p>
+                                </div>
+                                <!--Forma de direccionar a otra url-->
+                                <a class="btn btn-tomato" href={% url 'get_product' id=product.id %}>Leer más</a>
+                            </div>
+                        </div>
+                        
+                    </div>
+                {%endfor%}
+            </div>
+        </div>
+{%endblock%}

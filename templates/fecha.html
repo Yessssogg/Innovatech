@@ -1,0 +1,9 @@
+{%extends './base/root.html'%} 
+{% block content %}
+<form method="POST">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Confirmar compra</button>
+</form>
+        
+{% endblock %}

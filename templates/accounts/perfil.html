@@ -1,0 +1,23 @@
+{% extends 'base/root.html' %}
+
+{% block content %}
+<div class="perfil-container container">
+    <h1>Perfil de {{ user.get_username }}</h1>
+
+    <h2>Eventos Comprados:</h2>
+    {% if carritos %}
+        <ul class="list-group">
+            {% for carrito in carritos %}
+                <li class="list-group-item">
+                    <strong>Producto:</strong> {{ carrito.producto.name }} <br>
+                    <strong>Marca:</strong> {{ carrito.brand.name }} <br>
+                    <strong>Fecha del Evento:</strong> {{ carrito.event_date }} <br>
+                    <strong>Estado:</strong> {% if carrito.complete %} Completado {% else %} Pendiente {% endif %}
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No tienes eventos comprados.</p>
+    {% endif %}
+</div>
+{% endblock %}
